@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8"/>
+  		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  		<link rel="stylesheet" href="media/css/main.css">
+		<title>Baze Chat</title>
+	</head>
+
+	<body>
+		
+		<div id='login-div'>
+			<input id='username-input' type="text">
+			<button id='connect-button'>Connect</button>
+		</div>
+
+		<div id='chat-div' class='inactive'>
+
+			<div id='lobby-div'>
+				<h2>Lobby</h2>
+				<ul id='user-list'>
+					<li>no users online</li>
+				</ul>
+			</div>
+			
+			<div id='message-div' class='inactive'>
+				<ul id='messages'></ul>
+				<form action=''>
+					<input id='message-input' autocomplete='off' />
+					<button>Send</button>
+				</form>
+			</div>
+			
+		</div>
+
+		<script src='/socket.io/socket.io.js'></script>
+		<script src='/media/js/jquery.js'></script>
+		<script src='/media/js/main.js'></script>
+		<script src='/media/js/chat.js'></script>
+
+	</body>
+</html>

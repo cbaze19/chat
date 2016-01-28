@@ -1,0 +1,13 @@
+#lobby-div {
+	display: inline-block;
+	margin-right: 100px;
+	background-color: gray;
+}
+
+.inactive {
+	display: none;
+}
+
+li {
+	cursor: pointer;
+}

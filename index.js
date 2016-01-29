@@ -31,10 +31,7 @@ app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/index.html');
 });
 
-
-
 var users = {};
-
 
 // Main connection handler
 io.on('connection', function(socket) {
@@ -59,22 +56,6 @@ io.on('connection', function(socket) {
 		
 	});
 
-	socket.on('invite', function(r) {
-
-		var recipsocket = getSocketFromName(r);
-
-		io.to(recipsocket).emit('invite', socket.username);
-		console.log('Invitation from ' + socket.username + ' to ' + io.sockets.sockets[recipsocket].username);
-
-	});
-
-	socket.on('accept', function(inviter) {
-		var u1 = getSocketFromName(inviter);
-
-		socket.join(room);
-
-	});
-
 	socket.on('chat message', function(msg) {
 		io.emit('chat message', msg);
 	});
@@ -92,7 +73,6 @@ io.on('connection', function(socket) {
 http.listen(port, function(){
 	console.log('listening on ' + port);
 });
-
 
 function getSocketFromName(n) {
 	for (var i in io.sockets.sockets) {

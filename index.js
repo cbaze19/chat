@@ -39,12 +39,7 @@ var users = {};
 // Main connection handler
 io.on('connection', function(socket) {
 
-
-	
-
-
 	var clientIP = socket.request.connection.remoteAddress;
-	//console.log('User connected from: ' + clientIP);
 
 	var userAdded = false;
 
@@ -57,7 +52,7 @@ io.on('connection', function(socket) {
 			users[uname] = socket.username;
 
 			userAdded = true;
-			//console.log(socket.username + ' has connected.');
+			console.log(socket.username + ' has connected from ' + clientIP);
 			io.emit('update user list', users);
 
 		}
@@ -66,15 +61,17 @@ io.on('connection', function(socket) {
 
 	socket.on('invite', function(r) {
 
-		//console.log('Invite from ' + socket.username + ' to ' + r);
-		var recipsocket;
-		for (var i in io.sockets.sockets) {
-			if (io.sockets.sockets[i].username == r) {
-				recipsocket = i;
-			}
-		}
+		var recipsocket = getSocketFromName(r);
 
 		io.to(recipsocket).emit('invite', socket.username);
+		console.log('Invitation from ' + socket.username + ' to ' + io.sockets.sockets[recipsocket].username);
+
+	});
+
+	socket.on('accept', function(inviter) {
+		var u1 = getSocketFromName(inviter);
+
+		socket.join(room);
 
 	});
 
@@ -87,7 +84,7 @@ io.on('connection', function(socket) {
 			delete users[socket.username];
 			io.emit('update user list', users);
 		}
-		//console.log(socket.username + ' has disconnected.');
+		console.log(socket.username + ' has disconnected.');
 	});
 });
 
@@ -95,3 +92,12 @@ io.on('connection', function(socket) {
 http.listen(port, function(){
 	console.log('listening on ' + port);
 });
+
+
+function getSocketFromName(n) {
+	for (var i in io.sockets.sockets) {
+		if (io.sockets.sockets[i].username == n) {
+			return i;
+		}
+	}
+}

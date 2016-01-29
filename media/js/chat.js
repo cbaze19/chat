@@ -20,8 +20,13 @@ socket.on('update user list', function(users) {
 	}
 });
 
+var inviter = '';
+
 socket.on('invite', function(from) {
 	console.log('Invite to chat from ' + from);
+	$('#invite-text').text('Invite to chat from ' + from);
+	$('#invite-div').removeClass('inactive');
+	inviter = from;
 });
 
 
@@ -38,6 +43,15 @@ $(function() {
 
 	$(document).on('click', 'li', function() {
 		socket.emit('invite', $(this).text());
+	});
+
+	$(document).on('click', '#decline-button', function() {
+		$('#chat-div').addClass('inactive');
+		inviter = '';
+	});
+
+	$(document).on('click', '#accept-button', function() {
+		socket.emit('accept', inviter);
 	});
 
 });

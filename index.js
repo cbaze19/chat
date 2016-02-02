@@ -59,11 +59,17 @@ io.on('connection', function(socket) {
 	socket.on('create room', function(rname) {
 		socket.join(rname);
 		currRoom = rname;
+		socket.emit('load history', history);
 	});
 
 
 	socket.on('chat message', function(data) {
-		io.to(currRoom).emit('chat message', data.msg);
+		io.to(currRoom).emit('chat message', data);
+		
+		if (history.length > 500) {
+			history.shift();
+		}
+
 		history.push(data);
 	});
 

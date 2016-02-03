@@ -50,6 +50,7 @@ io.on('connection', function(socket) {
 		users.push({ id: socket.id, name: socket.name });
 		userAdded = true;
 		io.emit('update user list', users);
+		io.emit('update room users', {room: 'lobby', users: io.adapter.rooms['lobby']});
 		socket.join('lobby');
 		currRoom = 'lobby';
 		console.log(users);
@@ -59,6 +60,7 @@ io.on('connection', function(socket) {
 	socket.on('create room', function(rname) {
 		socket.join(rname);
 		currRoom = rname;
+		io.emit('update room users', {room: rname, users: io.adapter.rooms[rname]});
 		socket.emit('load history', history);
 	});
 

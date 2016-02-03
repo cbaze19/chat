@@ -34,6 +34,13 @@ socket.on('update user list', function(users) {
 });
 
 
+socket.on('update room users', function(data) {
+	for (var i in data.users) {
+		console.log(i);
+	}
+});
+
+
 $(function() {
 
 	$('#connect-button').on('click', function() {
